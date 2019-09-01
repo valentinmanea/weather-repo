@@ -1,0 +1,19 @@
+.signup-input {
+    margin: 1rem 0;
+    padding: 1.5rem;
+    border-radius: 2rem;
+    outline: none;
+    border: none;
+    box-shadow: 0 0 2rem rgba(0, 0, 255, 0.3);
+    width: 100%;
+  }
+
+ .signup-option{
+     margin: 1rem 0;
+     padding: 1.5rem;
+     border-radius: 2rem;
+     outline: none;
+     border: none;
+     box-shadow: 0 0 2rem rgba(0, 0, 255, 0.3);
+     width: 100%;
+ } 
