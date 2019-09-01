@@ -17,9 +17,11 @@ import {AddComponent} from './pages/add/add.component';
 import {LoginComponent} from './pages/login/login.component';
 import {SignupComponent} from './pages/signup/signup.component';
 import {ErrorComponent} from './ui/error/error.component';
+
 import {NguiAutoCompleteModule} from '@ngui/auto-complete';
 import {FormsModule} from '@angular/forms';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { SuccesComponent } from './ui/succes/succes.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     LoginComponent,
     SignupComponent,
     ErrorComponent,
-    SelectDropdownComponent
+    SelectDropdownComponent,
+    SuccesComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

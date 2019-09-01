@@ -30,8 +30,20 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/home'])
       }
     },(err) => {
-      this.errorMessage = err.error.message;
-      setTimeout(() => {
+      console.log(err)
+      if(err.error == null){
+        if(err.message != null){
+          if(err.message.indexOf('401') != -1){
+            this.errorMessage = 'Incorrect credentials';
+          }else{
+            this.errorMessage = err.message;
+          }
+        }
+      }else if(err.error.errorMessage){
+        this.errorMessage = err.error.errorMessage;
+      }else if(err.error.message){
+       this.errorMessage = err.error.message;
+      }      setTimeout(() => {
         this.errorMessage = '';
       }, 3000);
     });

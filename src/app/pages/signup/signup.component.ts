@@ -14,8 +14,8 @@ import {first} from 'rxjs/operators';
 export class SignupComponent implements OnInit {
   errorMessage;
   selectedCountry;
-  countries
-
+  countries;
+  successMessage;
   constructor(public router: Router, private accountService:AccountService,
     private countryService:CountryService) {
   }
@@ -33,10 +33,22 @@ export class SignupComponent implements OnInit {
     user.password = e.target.password.value;
     user.fullName = e.target.fullName.value;
     console.log('user', user)
-    this.accountService.createAccount(user).subscribe(response => console.log(response),
-     (err) => {
-      this.errorMessage = err.error.message;
+    this.accountService.createAccount(user).subscribe(response => {
+      this.successMessage='Account registered';
       setTimeout(() => {
+        this.successMessage = '';
+      }, 3000);
+      console.log(response);
+    },
+     (err) => {
+       console.log(err.error)
+       if(err.error.errorMessage){
+         this.errorMessage = err.error.errorMessage;
+       }else if(err.error.message){
+        this.errorMessage = err.error.message;
+       }
+       console.log(this.errorMessage)
+      setTimeout(() => { 
         this.errorMessage = '';
       }, 3000);
     })

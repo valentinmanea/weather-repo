@@ -15,5 +15,7 @@ export class ErrorComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  onClick(){
+    this.message =''
+  }
 }
