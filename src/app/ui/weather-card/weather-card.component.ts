@@ -1,7 +1,7 @@
+import { CityService } from './../../services/CityService';
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {Router} from '@angular/router';
 import {WeatherService} from '../../services/weather/weather.service';
-import {UiService} from '../../services/ui/ui.service';
 import {Subscription} from 'rxjs';
 import {first} from 'rxjs/operators';
 
@@ -29,28 +29,13 @@ export class WeatherCardComponent implements OnInit {
           this.errorMessage = '';
         }, 3000);
       });
-    // this.weather.getForecast(city)
-    //   .pipe(first())
-    //   .subscribe((payload) => {
-    //     this.maxTemp = Math.round(payload[0].main.temp);
-    //     this.minTemp = Math.round(payload[0].main.temp);
-    //     for (const res of payload) {
-    //       if (new Date().toLocaleDateString('en-GB') === new Date(res.dt_txt).toLocaleDateString('en-GB')) {
-    //         this.maxTemp = res.main.temp > this.maxTemp ? Math.round(res.main.temp) : this.maxTemp;
-    //         this.minTemp = res.main.temp < this.minTemp ? Math.round(res.main.temp) : this.minTemp;
-    //       }
-    //     }
-    //   }, (err) => {
-    //     this.errorMessage = err.error.message;
-    //     setTimeout(() => {
-    //       this.errorMessage = '';
-    //     }, 3000);
-    //   });
   }
 
   @Input() addMode;
   @Output() cityStored = new EventEmitter();
   citesWeather: Object;
+  @Output() cityRemoved = new EventEmitter();
+
   darkMode: boolean;
   sub1: Subscription;
   state: string;
@@ -60,10 +45,11 @@ export class WeatherCardComponent implements OnInit {
   errorMessage: string;
   cityName;
   cityAdded = false;
+  successMessage;
 
   constructor(public weather: WeatherService,
               public router: Router,
-              public ui: UiService) {
+              public cityService:CityService) {
   }
 
   ngOnInit() {
@@ -76,18 +62,83 @@ export class WeatherCardComponent implements OnInit {
     }
   }
 
-   addcity() {
-  //   this.fb.addcity(this.cityName).subscribe(() => {
-  //     this.cityName = null;
-  //     this.maxTemp = null;
-  //     this.minTemp = null;
-  //     this.state = null;
-  //     this.temp = null;
-  //     this.cityAdded = true;
-  //     this.cityStored.emit();
-  //     setTimeout(() => this.cityAdded = false, 2000);
-  //   });
-   }
+  addCity() {
+    console.log(this.cityName)
+    this.cityService.addFavouriteCity(this.cityName).subscribe(response => {
+      this.successMessage='City ' + this.cityName + ' was added to favourites!'
+      setTimeout(() => {
+        this.successMessage = '';
+      }, 3000);   
+     },
+     (err) => {
+       console.log('a ajuns pe aici',err.error)
+       if(err.error.errorMessage){
+         this.errorMessage = err.error.errorMessage;
+       }else if(err.error.message){
+        this.errorMessage = err.error.message;
+       }
+       console.log(this.errorMessage)
+      setTimeout(() => {
+        this.errorMessage = '';
+      }, 3000);
+    })
+  }
+  removeCity(){
+    this.cityService.removeFavouriteCity(this.cityName).subscribe(response => {
+      this.successMessage='City ' + this.cityName + ' was removed to favourites!'
+      this.emitWhenRemoved();
+      setTimeout(() => {
+        this.successMessage = '';
+      }, 3000);   
+    }),
+    (err) => {
+      console.log(err.error)
+      if(err.error.errorMessage){
+        this.errorMessage = err.error.errorMessage;
+      }else if(err.error.message){
+       this.errorMessage = err.error.message;
+      }
+      console.log(this.errorMessage)
+     setTimeout(() => { 
+       this.errorMessage = '';
+     }, 3000);
+    }
+  }
+  showSun(){
+    if(this.state){
+      return this.state.toLowerCase().indexOf('sunny') > -1 || this.state.toLowerCase().indexOf('clear') > -1 
+    }
+    return false;
+  }
 
+  showCloud(){
+    if(this.state){
+      return this.state.toLowerCase().indexOf('cloud') > -1 
+    }
+    return false;
+  }
+  showRain(){
+    if(this.state){
+      return this.state.toLowerCase().indexOf('rain') > -1 || this.state.toLowerCase().indexOf('drizzle') > -1 || this.state.toLowerCase().indexOf('mist') > -1 
+    }
+    return false;
+  }
 
+  showFog(){
+    if(this.state){
+      return this.state.toLowerCase().indexOf('haze') > -1 || this.state.toLowerCase().indexOf('fog') > -1
+     }
+     return false;
+  }
+  showStorm(){
+    if(this.state){
+      return this.state.toLowerCase().indexOf('storm') > -1
+     }
+     return false;
+
+  }
+  emitWhenRemoved(){
+    console.log('emit' + this.cityName)
+    this.cityRemoved.emit(this.cityName);
+  }
 }

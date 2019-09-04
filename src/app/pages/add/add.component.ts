@@ -1,3 +1,4 @@
+import { CityService } from './../../services/CityService';
 import {Component, OnDestroy, OnInit, ɵConsole} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {WeatherService} from '../../services/weather/weather.service';
@@ -8,7 +9,7 @@ import {first} from 'rxjs/operators';
   templateUrl: './add.component.html',
   styleUrls: ['./add.component.css']
 })
-export class AddComponent implements OnInit, OnDestroy {
+export class AddComponent implements OnInit {
 
   temp: number;
   city = 'Rome';
@@ -21,16 +22,15 @@ export class AddComponent implements OnInit, OnDestroy {
   sub1;
 
 
-  constructor(public http: HttpClient, public weather: WeatherService) {
+  constructor(public http: HttpClient, public weather: WeatherService, private cityService: CityService) {
   }
 
   ngOnInit() {
-    // getting the city placeID
-    // this.weather.getWeather(this.city).subscribe((payload: any) => {
-    //   this.state = payload.weather[0].main;
-    //   this.temp = Math.ceil(Number(payload.main.temp));
-    // });
-
+    this.weather.getWeather('Rome').subscribe(response => {
+      console.log(response);
+      this.state = response.WeatherText;
+      this.temp = response.Temperature.Metric.Value;
+    })
     this.http.get('https://restcountries.eu/rest/v2/all').pipe((first())).subscribe((countries: Array<any>) => {
       countries.forEach((country: any) => {
         if (country.capital.length) {
@@ -59,15 +59,4 @@ export class AddComponent implements OnInit, OnDestroy {
       this.showNote = true;
     }
   }
-
-  addCityOfTheMonth() {
-    // this.fb.addCity('Rome').subscribe(() => {
-    //   this.followedCM = true;
-    // });
-  }
-
-  ngOnDestroy() {
-    this.sub1.unsubscribe();
-  }
-
 }

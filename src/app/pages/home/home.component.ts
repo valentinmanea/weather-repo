@@ -1,3 +1,4 @@
+import { map } from 'rxjs/operators';
 import { CityService } from './../../services/CityService';
 import {Component, OnInit} from '@angular/core';
 
@@ -13,6 +14,10 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.cityService.getCities().subscribe(response => this.cities = response)
+     this.cityService.getAllFavouriteCityForCurrentUser().subscribe(response => this.cities = response);
+  }
+  removeFromList(event){
+    console.log(event)
+    this.cities = this.cities.filter(city=>city != event)
   }
 }

@@ -1,0 +1,9 @@
+.main-card {
+    height: 87vh;
+    width: 90vw;
+    background-color: #fff;
+    border-radius: 1rem;
+    display: flex;
+    margin-top: -4rem;
+  }
+  

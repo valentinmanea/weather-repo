@@ -1,5 +1,4 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {UiService} from '../../services/ui/ui.service';
 import {Subscription} from 'rxjs';
 
 @Component({
@@ -7,22 +6,15 @@ import {Subscription} from 'rxjs';
   templateUrl: './add-card.component.html',
   styleUrls: ['./add-card.component.css']
 })
-export class AddCardComponent implements OnInit, OnDestroy {
+export class AddCardComponent implements OnInit {
 
   darkMode: boolean;
   sub1: Subscription;
 
-  constructor(public ui: UiService) {
+  constructor() {
   }
 
   ngOnInit() {
-    this.sub1 = this.ui.darkModeState.subscribe((isDark) => {
-      this.darkMode = isDark;
-    });
-  }
-
-  ngOnDestroy() {
-    this.sub1.unsubscribe();
   }
 
 }

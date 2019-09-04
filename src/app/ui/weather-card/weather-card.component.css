@@ -11,6 +11,7 @@ Weather Card Styling
   justify-items: center;
   padding: 2rem;
   margin: 2rem;
+  margin-bottom: 0px;
   width: 19rem;
   height: 30rem;
   cursor: pointer;
@@ -82,7 +83,17 @@ background: linear-gradient(to bottom, #372865, #000000);
   letter-spacing: 0.1rem;
   text-align: center;
 }
-
+.close-btn {
+  outline: none;
+  border: none;
+  padding: 0.1rem 0.1rem;
+  background-color: red;
+  font-size: 1rem;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+  margin-left: 10rem;
+}
 .max__text {
   color: #FF0070;
 }

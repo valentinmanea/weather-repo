@@ -13,7 +13,16 @@
 .details-page__wrapper-dark {
   background: linear-gradient(#FC7DB8, #495CFC);
 }
-
+.success-btn {
+  outline: none;
+  border: none;
+  padding: 0.1rem 0.5rem;
+  background-color: rgb(22, 121, 2);
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+}
 .background-gradient__circle {
   position: absolute;
   top: 50%;

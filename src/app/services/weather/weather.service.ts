@@ -10,7 +10,7 @@ import {first, map} from 'rxjs/operators';
 })
 export class WeatherService {
 
-  private readonly baseURL = 'http://localhost:8080/temperature';
+  private readonly baseURL = 'http://localhost:8080/';
   private readonly forcastURL = 'https://api.openweathermap.org/data/2.5/forecast?q=';
   private readonly appID = 'Weather';
 
@@ -18,13 +18,11 @@ export class WeatherService {
   }
 
   getWeather(city: string): Observable<any> {
-    return this.http.get(this.baseURL+"/?cityName=" + city);
+    return this.http.get(this.baseURL+"temperature/?cityName=" + city);
   }
 
-  getForecast(city: string, metric: 'metric' | 'imperial' = 'metric'): Observable<any> {
-    return this.http.get(
-      `${this.forcastURL}${city}&units=${metric}&APPID=${this.appID}`)
-      .pipe(first(), map((weather) => weather['list']));
+  getForecast(city: string): Observable<any> {
+    return this.http.get(this.baseURL +"/forecast-by-text/?text" + city);
   }
 
   // [0].main
