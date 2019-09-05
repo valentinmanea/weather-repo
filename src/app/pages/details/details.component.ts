@@ -16,7 +16,8 @@ export class DetailsComponent implements OnInit {
   state: string;
   temp: number;
   hum: number;
-  wind: number;
+  dayWind: string;
+  nightWind: string;
   today: string;
   daysForecast: Object; 
   cityIllustrationPath: string;
@@ -46,13 +47,15 @@ export class DetailsComponent implements OnInit {
           this.errorMessage = '';
         }, 3000);
       });
-    this.weather.getForecast(this.city).subscribe(response => console.log(response))
+    this.weather.getForecast(this.city).subscribe(response => {
+      console.log(response);
+      this.dayWind = response.DailyForecasts[0].Day.Wind.Speed.Value + '' + response.DailyForecasts[0].Day.Wind.Speed.Unit;
+      this.nightWind = response.DailyForecasts[0].Night.Wind.Speed.Value + '' + response.DailyForecasts[0].Night.Wind.Speed.Unit;
+
+    })
   }
 
-
-
   subscribe(){
-    console.log('asmdisamdsa')
     this.subscribeService.addSubscription(this.city).subscribe(response=>{
       this.successMessage='Subscription added'
       setTimeout(() => {

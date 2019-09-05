@@ -22,7 +22,7 @@ export class WeatherService {
   }
 
   getForecast(city: string): Observable<any> {
-    return this.http.get(this.baseURL +"/forecast-by-text/?text" + city);
+    return this.http.get(this.baseURL +"forecast-by-text/?text=" + city);
   }
 
   // [0].main

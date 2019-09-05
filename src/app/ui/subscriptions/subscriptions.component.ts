@@ -19,7 +19,7 @@ export class SubscriptionsComponent implements OnInit {
       this.subscriptions.forEach(s=>console.log(s.active))
       this.subscriptions.forEach(s=>s.statusImgSrc = s.active? 'https://cdn1.iconfinder.com/data/icons/silk2/tick.png':'https://icon-library.net/images/inactive-icon/inactive-icon-8.jpg')
     });
-    
+     
   }
   changeStatus(index){
     console.log(this.subscriptions[index])
