@@ -3,6 +3,8 @@ import { AuthService } from './../../services/auth.service';
 import {Component, OnInit} from '@angular/core';
 import {first, tap} from 'rxjs/operators';
 import {Router} from '@angular/router';
+import { Subject } from 'rxjs';
+import { ObserverService } from 'src/app/services/observer.service';
 
 @Component({
   selector: 'app-login',
@@ -12,11 +14,13 @@ import {Router} from '@angular/router';
 export class LoginComponent implements OnInit {
   currentUser;
   errorMessage = '';
-  constructor(public router: Router, private authService:AuthService) {
+  constructor(public router: Router, private authService:AuthService, private observerService:ObserverService) {
   }
 
   ngOnInit() {
   }
+
+  private subject = new Subject<any>();
 
   login(e) {
     let user = new User();
@@ -27,6 +31,7 @@ export class LoginComponent implements OnInit {
       if (this.currentUser) {
         localStorage.setItem("auth", btoa( user.username+ ':' + user.password));
         localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
+        this.observerService.notify(true);
         this.router.navigate(['/home'])
       }
     },(err) => {

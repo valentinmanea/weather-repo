@@ -1,3 +1,4 @@
+import { ObserverService } from './services/observer.service';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { AuthService } from './services/auth.service';
 import { AccountService } from './services/account.service';
@@ -49,7 +50,7 @@ import { SubscriptionsComponent } from './ui/subscriptions/subscriptions.compone
     NguiAutoCompleteModule,
     FormsModule,
     ServiceWorkerModule.register('ngsw-worker.js')
-  ],providers:[ AccountService, AuthService, ImageService, SubscribeService,
+  ],providers:[ AccountService, AuthService, ImageService, SubscribeService, ObserverService,
     {
       provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true 
     }
